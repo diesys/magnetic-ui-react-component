@@ -1,5 +1,5 @@
-import { MagneticDemo } from './components/MagneticDemo';
+import { Demo } from './components/demo';
 
 export default function App() {
-  return <MagneticDemo />;
+  return <Demo />;
 }
