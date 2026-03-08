@@ -72,7 +72,7 @@ function Toggle({
       >
         <div className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-200 ${value ? 'translate-x-4' : 'translate-x-0'}`} />
       </div>
-      <span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>{label}</span>
+      <span className="text-xs text-white/70">{label}</span>
     </label>
   );
 }
@@ -87,8 +87,8 @@ function Slider({
   return (
     <div className={`flex flex-col gap-1 transition-opacity ${dimmed ? 'opacity-30 pointer-events-none' : ''}`}>
       <div className="flex justify-between items-center">
-        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{label}</span>
-        <span className="text-xs font-mono" style={{ color: 'rgba(167,139,250,1)' }}>
+        <span className="text-xs text-white/50">{label}</span>
+        <span className="text-xs font-mono text-violet-400">
           {value.toFixed(step < 1 ? 2 : 0)}
         </span>
       </div>
@@ -112,12 +112,11 @@ function Select<T extends string>({
 }) {
   return (
     <div className={`flex flex-col gap-1 transition-opacity ${dimmed ? 'opacity-30 pointer-events-none' : ''}`}>
-      <span className="text-xs" style={{ color: 'rgba(255,255,255,0.5)' }}>{label}</span>
+      <span className="text-xs text-white/50">{label}</span>
       <select
         value={value}
         onChange={e => onChange(e.target.value as T)}
-        style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}
-        className="text-white text-xs rounded-lg px-2 py-1.5 focus:outline-none focus:border-violet-400"
+        className="text-white text-xs bg-white/5 border border-white/10 rounded-lg px-2 py-1.5 focus:outline-none focus:border-violet-400"
       >
         {options.map(o => (
           <option key={o.value} value={o.value}>{o.label}</option>
@@ -149,8 +148,7 @@ function Section({
         className="flex items-center justify-between w-full py-2 group"
       >
         <span
-          className="text-[10px] uppercase tracking-widest font-semibold transition-colors group-hover:text-white"
-          style={{ color: 'rgba(255,255,255,0.3)' }}
+          className="text-[10px] uppercase tracking-widest font-semibold transition-colors group-hover:text-white text-white/30"
         >
           {title}
         </span>
@@ -217,21 +215,18 @@ const CARD_IMAGE = 'https://images.unsplash.com/photo-1771930629963-150567580932
 
 function DemoCard() {
   return (
-    <div className="w-56 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm"
-      style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+    <div className="w-56 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-sm bg-white/5 border border-white/10">
       <img src={CARD_IMAGE} alt="abstract" className="w-full h-28 object-cover" />
       <div className="p-4 flex flex-col gap-2">
-        <p className="text-white text-sm" style={{ fontWeight: 600 }}>Magnetic Card</p>
-        <p className="text-xs leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+        <p className="text-white text-sm font-semibold">Magnetic Card</p>
+        <p className="text-xs leading-relaxed text-white/50">
           Move your mouse near this card to feel the gravitational pull.
         </p>
         <div className="flex gap-2 mt-1">
-          <span className="text-[10px] px-2 py-0.5 rounded-full"
-            style={{ background: 'rgba(139,92,246,0.2)', color: 'rgba(196,181,253,1)', border: '1px solid rgba(139,92,246,0.3)' }}>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-200 border border-violet-500/30">
             React
           </span>
-          <span className="text-[10px] px-2 py-0.5 rounded-full"
-            style={{ background: 'rgba(236,72,153,0.2)', color: 'rgba(249,168,212,1)', border: '1px solid rgba(236,72,153,0.3)' }}>
+          <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-200 border border-pink-500/30">
             Physics
           </span>
         </div>
@@ -243,12 +238,7 @@ function DemoCard() {
 function DemoButton() {
   return (
     <button
-      className="px-8 py-4 rounded-xl text-white text-sm cursor-pointer transition-colors"
-      style={{
-        background: 'linear-gradient(135deg, #7c3aed, #6d28d9)',
-        boxShadow: '0 8px 32px rgba(109,40,217,0.4)',
-        border: '1px solid rgba(139,92,246,0.3)',
-      }}
+      className="px-8 py-4 rounded-xl text-white text-sm cursor-pointer transition-colors bg-gradient-to-br from-violet-600 to-violet-800 shadow-[0_8px_32px_rgba(109,40,217,0.4)] border border-violet-300/30"
     >
       ✦ Magnetic Button
     </button>
@@ -319,8 +309,8 @@ export function MagneticDemo() {
           style={{ background: 'radial-gradient(circle at 50% 50%, #1a0a2e 0%, #0d0d14 70%)' }}
         >
           <header className="shrink-0 mt-10">
-            <h1 className="text-white font-mono" style={{ fontWeight: 700 }}>&lt;Magnetic/&gt;</h1>
-            <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+            <h1 className="text-white font-mono font-bold">&lt;Magnetic/&gt;</h1>
+            <p className="text-sm mt-1 text-white/35">
               Physics-inspired mouse interaction component for React
             </p>
           </header>
@@ -372,8 +362,7 @@ export function MagneticDemo() {
 
         {/* ── Controls sidebar ────────────────────────────────────────── */}
         <aside
-          className="w-72 overflow-y-auto flex max-h-full flex-col divide-y divide-dashed divide-b-white/10 p-4"
-          style={{ borderLeft: '1px solid rgba(255,255,255,0.05)', background: '#0a0a0f' }}
+          className="w-72 overflow-y-auto flex max-h-full flex-col divide-y divide-dashed divide-b-white/10 p-4 border-l border-white/5 bg-[#0a0a0f]"
         >
             {/* Three-way mode selector: Attract | Repel | Disabled */}
             <div className="flex gap-1.5 sticky -top-2 z-20 -mx-0.5">
@@ -507,8 +496,7 @@ export function MagneticDemo() {
             {/* ── CODE ───────────────────────────────────────────────── */}
             <Section title="Code" tooltip="Live JSX snippet — copy and paste into your project" defaultOpen={false}>
               <pre
-                className="text-[10px] rounded-lg p-3 overflow-x-auto leading-relaxed whitespace-pre-wrap"
-                style={{ color: 'rgba(196,181,253,0.7)', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}
+                className="text-[10px] rounded-lg p-3 overflow-x-auto leading-relaxed whitespace-pre-wrap text-violet-200/70 bg-white/3 border border-white/10"
               >
 {`<Magnetic
   radius={${config.radius}}
