@@ -34,6 +34,7 @@ interface Config {
   spring:           boolean;
   springStiffness:  number;
   springDamping:    number;
+  children:         React.ReactNode;
 }
 
 const DEFAULT_CONFIG: Config = {
@@ -51,7 +52,8 @@ const DEFAULT_CONFIG: Config = {
   opacity:          false, opacityIntensity: 0.4,
   spring:           true,
   springStiffness:  0.15,
-  springDamping:    0.75,
+  springDamping: 0.75,
+  children:         null,
 };
 
 // ─── Small reusable control primitives ───────────────────────────────────────
@@ -139,7 +141,7 @@ function Section({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="flex flex-col" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+    <div className="flex flex-col border-b border-dashed border-b-white/10">
       {/* Header row — clickable, tooltip on hover */}
       <button
         onClick={() => setOpen(o => !o)}
@@ -307,125 +309,110 @@ export function MagneticDemo() {
   const magneticProps: MagneticProps = { ...config };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col">
-
-      {/* ── Header ──────────────────────────────────────────────────── */}
-      <header className="px-8 py-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <h1 className="text-white" style={{ fontWeight: 700 }}>⟨Magnetic/⟩</h1>
-        <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
-          Physics-inspired mouse interaction component for React
-        </p>
-      </header>
-
+    <div className="min-h-screen max-h-screen bg-[#0a0a0f] text-white flex flex-col">
       {/* ── Main layout ─────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
 
         {/* ── Demo stage ──────────────────────────────────────────────── */}
         <main
-          className="flex-1 relative flex flex-col items-center justify-center gap-16"
+          className="flex-1 relative flex flex-col items-center justify-center gap-16 p-4"
           style={{ background: 'radial-gradient(circle at 50% 50%, #1a0a2e 0%, #0d0d14 70%)' }}
         >
+          <header className="shrink-0 mt-10">
+            <h1 className="text-white font-mono" style={{ fontWeight: 700 }}>&lt;Magnetic/&gt;</h1>
+            <p className="text-sm mt-1" style={{ color: 'rgba(255,255,255,0.35)' }}>
+              Physics-inspired mouse interaction component for React
+            </p>
+          </header>
+
           <RadiusOverlay radius={config.radius} show={showRadius && !isDisabled} />
 
-          {/* Mode badge */}
-          <div
-            className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-1 rounded-full text-xs"
-            style={
-              isDisabled
-                ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.3)' }
-                : config.mode === 'attract'
-                  ? { background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', color: 'rgba(196,181,253,1)' }
-                  : { background: 'rgba(244,63,94,0.1)',  border: '1px solid rgba(244,63,94,0.3)',  color: 'rgba(253,164,175,1)' }
-            }
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full"
-              style={{
-                background: isDisabled
-                  ? 'rgba(255,255,255,0.2)'
-                  : config.mode === 'attract' ? 'rgba(167,139,250,1)' : 'rgba(251,113,133,1)',
-              }}
-            />
-            {isDisabled ? '○ Disabled' : config.mode === 'attract' ? '⊕ Attract mode' : '⊖ Repel mode'}
-          </div>
-
           {/* Demo elements */}
-          <div className="flex flex-wrap items-center justify-center gap-20">
+          <div className="flex flex-wrap items-center justify-center gap-20 grow">
             <div className="flex flex-col items-center gap-4">
               <Magnetic {...magneticProps}>
                 <DemoButton />
               </Magnetic>
-              <span className="text-[10px] uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.15)' }}>Button</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/20">Button</span>
             </div>
             <div className="flex flex-col items-center gap-4">
               <Magnetic {...magneticProps}>
                 <DemoCard />
               </Magnetic>
-              <span className="text-[10px] uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.15)' }}>Card</span>
+              <span className="text-[10px] uppercase tracking-widest text-white/20">Card</span>
             </div>
           </div>
 
-          <p className="absolute bottom-4 text-xs" style={{ color: 'rgba(255,255,255,0.12)' }}>
+          <p className="text-xs text-white/20">
+            {/* Mode badge */}
+            <span
+              className="flex items-center gap-2 px-3 py-1 rounded-full text-xs w-fit mx-auto my-2"
+              style={
+                isDisabled
+                  ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.3)' }
+                  : config.mode === 'attract'
+                    ? { background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', color: 'rgba(196,181,253,1)' }
+                    : { background: 'rgba(244,63,94,0.1)',  border: '1px solid rgba(244,63,94,0.3)',  color: 'rgba(253,164,175,1)' }
+              }
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{
+                  background: isDisabled
+                    ? 'rgba(255,255,255,0.2)'
+                    : config.mode === 'attract' ? 'rgba(167,139,250,1)' : 'rgba(251,113,133,1)',
+                }}
+              />
+              {isDisabled ? '○ Disabled' : config.mode === 'attract' ? '⊕ Attract mode' : '⊖ Repel mode'}
+            </span>
+
             Move your cursor over or near the elements
           </p>
         </main>
 
         {/* ── Controls sidebar ────────────────────────────────────────── */}
         <aside
-          className="w-72 overflow-y-auto flex flex-col"
+          className="w-72 overflow-y-auto flex max-h-full flex-col divide-y divide-dashed divide-b-white/10 p-4"
           style={{ borderLeft: '1px solid rgba(255,255,255,0.05)', background: '#0a0a0f' }}
         >
-          {/* Reset */}
-          <div className="p-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-            <button
-              onClick={() => setConfig(DEFAULT_CONFIG)}
-              className="w-full py-2 rounded-lg text-xs transition-colors"
-              style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.4)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
-            >
-              ↺ Reset to defaults
-            </button>
-          </div>
+            {/* Three-way mode selector: Attract | Repel | Disabled */}
+            <div className="flex gap-1.5 sticky -top-2 z-20 -mx-0.5">
+              {(
+                [
+                  { label: '⊕ Attract', mode: 'attract' as ModeType, activeStyle: { background: 'rgba(109,40,217,0.3)', border: '1px solid rgba(139,92,246,0.4)', color: 'rgba(196,181,253,1)' } },
+                  { label: '⊖ Repel',   mode: 'repel'   as ModeType, activeStyle: { background: 'rgba(190,18,60,0.25)',  border: '1px solid rgba(244,63,94,0.4)',  color: 'rgba(253,164,175,1)' } },
+                  { label: '○ Off',     mode: null,                   activeStyle: { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' } },
+                ] as const
+              ).map(item => {
+                // "Off" button maps to disabled=true, others to disabled=false + mode
+                const isActive = item.mode === null ? isDisabled : (!isDisabled && config.mode === item.mode);
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      if (item.mode === null) {
+                        set('disabled', true);
+                      } else {
+                        setConfig(prev => ({ ...prev, disabled: false, mode: item.mode! }));
+                      }
+                    }}
+                    className="cursor-pointer flex-1 py-1.5 rounded-lg text-[11px] transition-all backdrop-blur-lg"
+                    style={
+                      isActive
+                        ? item.activeStyle
+                        : { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.35)' }
+                    }
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
 
-          <div className="flex flex-col px-4">
+
 
             {/* ── CORE ───────────────────────────────────────────────── */}
             <Section title="Core" tooltip="Activation radius, interaction mode, falloff curve and spring physics">
-
-              {/* Three-way mode selector: Attract | Repel | Disabled */}
-              <div className="flex gap-1.5">
-                {(
-                  [
-                    { label: '⊕ Attract', mode: 'attract' as ModeType, activeStyle: { background: 'rgba(109,40,217,0.3)', border: '1px solid rgba(139,92,246,0.4)', color: 'rgba(196,181,253,1)' } },
-                    { label: '⊖ Repel',   mode: 'repel'   as ModeType, activeStyle: { background: 'rgba(190,18,60,0.25)',  border: '1px solid rgba(244,63,94,0.4)',  color: 'rgba(253,164,175,1)' } },
-                    { label: '○ Off',     mode: null,                   activeStyle: { background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.7)' } },
-                  ] as const
-                ).map(item => {
-                  // "Off" button maps to disabled=true, others to disabled=false + mode
-                  const isActive = item.mode === null ? isDisabled : (!isDisabled && config.mode === item.mode);
-                  return (
-                    <button
-                      key={item.label}
-                      onClick={() => {
-                        if (item.mode === null) {
-                          set('disabled', true);
-                        } else {
-                          setConfig(prev => ({ ...prev, disabled: false, mode: item.mode! }));
-                        }
-                      }}
-                      className="flex-1 py-1.5 rounded-lg text-[11px] transition-all"
-                      style={
-                        isActive
-                          ? item.activeStyle
-                          : { background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.35)' }
-                      }
-                    >
-                      {item.label}
-                    </button>
-                  );
-                })}
-              </div>
 
               {/* Radius and falloff — dimmed when disabled */}
               <Slider
@@ -447,7 +434,7 @@ export function MagneticDemo() {
               {/* ── Spring physics — nested inside Core ─────────────── */}
               <Toggle label="Spring" value={config.spring} onChange={v => set('spring', v)} dimmed={isDisabled} />
               <div
-                className="overflow-hidden transition-all duration-200 flex flex-col gap-3"
+                className="overflow-hidden transition-all duration-200 flex flex-col gap-3 pb-2"
                 style={{ maxHeight: config.spring && !isDisabled ? '200px' : '0px', opacity: config.spring && !isDisabled ? 1 : 0 }}
               >
                 <Slider
@@ -549,7 +536,15 @@ export function MagneticDemo() {
               </pre>
             </Section>
 
-          </div>
+            {/* Reset */}
+            <button
+              onClick={() => setConfig(DEFAULT_CONFIG)}
+              className="cursor-pointer py-2 rounded-lg text-xs transition-colors mt-auto sticky shadow-lg -mx-0.5 -bottom-2 bg-white/10 backdrop-blur-sm color-white/40 border border-white/10"
+              onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
+            >
+              ↺ Reset to defaults
+            </button>
         </aside>
       </div>
     </div>
