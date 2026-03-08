@@ -24,7 +24,7 @@ const CONFIG: MagneticProps = {
   opacity:          false, opacityIntensity: 0.4,
   spring:           true,
   springStiffness:  0.15,
-  springDamping: 0.75,
+  springDamping: 0.25,
   children:         null,
 };
 

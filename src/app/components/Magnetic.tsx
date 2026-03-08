@@ -95,7 +95,7 @@ export interface MagneticProps {
   spring?: boolean;
   /** Spring stiffness [0–1]. Higher = snappier. Default: 0.15 */
   springStiffness?: number;
-  /** Spring damping [0–1]. Higher = less oscillation. Default: 0.75 */
+  /** Spring damping [0–1]. Higher = less oscillation. Default: 0.25 */
   springDamping?: number;
 
   // ── Wrapper ───────────────────────────────────────────────────────────
@@ -279,7 +279,7 @@ export function Magnetic({
   perspective = 800,
   spring = true,
   springStiffness = 0.15,
-  springDamping = 0.75,
+  springDamping = 0.25,
   className,
   style,
   ...rest
@@ -334,7 +334,7 @@ export function Magnetic({
           // Spring physics: each frame, velocity pulls current toward target
           // and is dampened to prevent infinite oscillation
           const stiffness = props.springStiffness ?? 0.15;
-          const damping   = props.springDamping   ?? 0.75;
+          const damping   = props.springDamping   ?? 0.25;
           const keys = Object.keys(cur) as (keyof AnimState)[];
 
           for (const k of keys) {
