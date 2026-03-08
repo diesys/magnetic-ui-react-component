@@ -7,37 +7,9 @@
  */
 
 import { useState, useRef, useEffect, ReactNode } from 'react';
-import { Magnetic, MagneticProps, FalloffType, ModeType } from './Magnetic';
+import { Magnetic, MagneticProps, ModeType } from './Magnetic';
 
-// ─── Demo configuration type ──────────────────────────────────────────────────
-
-interface Config {
-  radius:           number;
-  falloff:          FalloffType;
-  mode:             ModeType;
-  disabled:         boolean;
-  move:             boolean;
-  moveIntensity:    number;
-  rotate:           boolean;
-  rotateIntensity:  number;
-  skew:             boolean;
-  skewIntensity:    number;
-  stretch:          boolean;
-  stretchIntensity: number;
-  scale:            boolean;
-  scaleIntensity:   number;
-  tilt:             boolean;
-  tiltIntensity:    number;
-  perspective:      number;
-  opacity:          boolean;
-  opacityIntensity: number;
-  spring:           boolean;
-  springStiffness:  number;
-  springDamping:    number;
-  children:         React.ReactNode;
-}
-
-const DEFAULT_CONFIG: Config = {
+const CONFIG: MagneticProps = {
   radius:           150,
   falloff:          'quadratic',
   mode:             'attract',
@@ -285,11 +257,11 @@ function RadiusOverlay({ radius, show }: { radius: number; show: boolean }) {
 // ─── Main Demo component ──────────────────────────────────────────────────────
 
 export function MagneticDemo() {
-  const [config, setConfig] = useState<Config>(DEFAULT_CONFIG);
+  const [config, setConfig] = useState<MagneticProps>(CONFIG);
   const [showRadius, setShowRadius] = useState(true);
 
   // Partial config update helper
-  const set = <K extends keyof Config>(key: K, value: Config[K]) =>
+  const set = <K extends keyof MagneticProps>(key: K, value: MagneticProps[K]) =>
     setConfig(prev => ({ ...prev, [key]: value }));
 
   // Whether all effects are frozen (disabled mode)
@@ -315,7 +287,7 @@ export function MagneticDemo() {
             </p>
           </header>
 
-          <RadiusOverlay radius={config.radius} show={showRadius && !isDisabled} />
+          <RadiusOverlay radius={config.radius ?? 150} show={showRadius && !isDisabled} />
 
           {/* Demo elements */}
           <div className="flex flex-wrap items-center justify-center gap-20 grow">
@@ -405,12 +377,12 @@ export function MagneticDemo() {
 
               {/* Radius and falloff — dimmed when disabled */}
               <Slider
-                label="Radius (px)" value={config.radius} min={30} max={500} step={1}
+                label="Radius (px)" value={config.radius ?? 0} min={30} max={500} step={1}
                 onChange={v => set('radius', v)} dimmed={isDisabled}
               />
               <Toggle label="Show radius overlay" value={showRadius} onChange={setShowRadius} dimmed={isDisabled} />
               <Select
-                label="Falloff curve" value={config.falloff}
+                label="Falloff curve" value={config.falloff ?? 'quadratic'}
                 options={[
                   { value: 'linear',      label: 'Linear — clean drop' },
                   { value: 'quadratic',   label: 'Quadratic — smooth' },
@@ -421,17 +393,17 @@ export function MagneticDemo() {
               />
 
               {/* ── Spring physics — nested inside Core ─────────────── */}
-              <Toggle label="Spring" value={config.spring} onChange={v => set('spring', v)} dimmed={isDisabled} />
+              <Toggle label="Spring" value={config.spring ?? true} onChange={v => set('spring', v)} dimmed={isDisabled} />
               <div
                 className="overflow-hidden transition-all duration-200 flex flex-col gap-3 pb-2"
                 style={{ maxHeight: config.spring && !isDisabled ? '200px' : '0px', opacity: config.spring && !isDisabled ? 1 : 0 }}
               >
                 <Slider
-                  label="Stiffness" value={config.springStiffness} min={0.01} max={0.6} step={0.01}
+                  label="Stiffness" value={config.springStiffness ?? 0.15} min={0.01} max={0.6} step={0.01}
                   onChange={v => set('springStiffness', v)}
                 />
                 <Slider
-                  label="Damping" value={config.springDamping} min={0.1} max={0.99} step={0.01}
+                  label="Damping" value={config.springDamping ?? 0.25} min={0.1} max={0.99} step={0.01}
                   onChange={v => set('springDamping', v)}
                 />
               </div>
@@ -442,53 +414,53 @@ export function MagneticDemo() {
 
               <EffectControl
                 label="Move — translateX/Y"
-                enabled={config.move} onToggle={v => set('move', v)}
-                value={config.moveIntensity} min={0} max={120} step={1}
+                enabled={config.move ?? true} onToggle={v => set('move', v)}
+                value={config.moveIntensity ?? 40} min={0} max={120} step={1}
                 onChange={v => set('moveIntensity', v)} dimmed={isDisabled}
               />
               <EffectControl
                 label="Rotate — rotate(deg)"
-                enabled={config.rotate} onToggle={v => set('rotate', v)}
-                value={config.rotateIntensity} min={0} max={45} step={0.5}
+                enabled={config.rotate ?? false} onToggle={v => set('rotate', v)}
+                value={config.rotateIntensity ?? 15} min={0} max={45} step={0.5}
                 onChange={v => set('rotateIntensity', v)} dimmed={isDisabled}
               />
               <EffectControl
                 label="Skew — skewX/Y"
-                enabled={config.skew} onToggle={v => set('skew', v)}
-                value={config.skewIntensity} min={0} max={30} step={0.5}
+                enabled={config.skew ?? false} onToggle={v => set('skew', v)}
+                value={config.skewIntensity ?? 10} min={0} max={30} step={0.5}
                 onChange={v => set('skewIntensity', v)} dimmed={isDisabled}
               />
               <EffectControl
                 label="Stretch — axis scale"
-                enabled={config.stretch} onToggle={v => set('stretch', v)}
-                value={config.stretchIntensity} min={0} max={1} step={0.01}
+                enabled={config.stretch ?? false} onToggle={v => set('stretch', v)}
+                value={config.stretchIntensity ?? 0.3} min={0} max={1} step={0.01}
                 onChange={v => set('stretchIntensity', v)} dimmed={isDisabled}
               />
               <EffectControl
                 label="Scale — uniform"
-                enabled={config.scale} onToggle={v => set('scale', v)}
-                value={config.scaleIntensity} min={0} max={1} step={0.01}
+                enabled={config.scale ?? false} onToggle={v => set('scale', v)}
+                value={config.scaleIntensity ?? 0.2} min={0} max={1} step={0.01}
                 onChange={v => set('scaleIntensity', v)} dimmed={isDisabled}
               />
 
               {/* Tilt — includes perspective sub-slider when active */}
               <EffectControl
                 label="Tilt — 3D rotateX/Y"
-                enabled={config.tilt} onToggle={v => set('tilt', v)}
-                value={config.tiltIntensity} min={0} max={45} step={0.5}
+                enabled={config.tilt ?? false} onToggle={v => set('tilt', v)}
+                value={config.tiltIntensity ?? 15} min={0} max={45} step={0.5}
                 onChange={v => set('tiltIntensity', v)} dimmed={isDisabled}
               >
                 {/* Perspective slider nested below tilt intensity */}
                 <Slider
-                  label="Perspective (px)" value={config.perspective} min={100} max={2000} step={10}
+                  label="Perspective (px)" value={config.perspective ?? 800} min={100} max={2000} step={10}
                   onChange={v => set('perspective', v)}
                 />
               </EffectControl>
 
               <EffectControl
                 label="Opacity — dim on proximity"
-                enabled={config.opacity} onToggle={v => set('opacity', v)}
-                value={config.opacityIntensity} min={0} max={1} step={0.01}
+                enabled={config.opacity ?? false} onToggle={v => set('opacity', v)}
+                value={config.opacityIntensity ?? 0.4} min={0} max={1} step={0.01}
                 onChange={v => set('opacityIntensity', v)} dimmed={isDisabled}
               />
             </Section>
@@ -526,7 +498,7 @@ export function MagneticDemo() {
 
             {/* Reset */}
             <button
-              onClick={() => setConfig(DEFAULT_CONFIG)}
+              onClick={() => setConfig(CONFIG)}
               className="cursor-pointer py-2 rounded-lg text-xs transition-colors mt-auto sticky shadow-lg -mx-0.5 -bottom-2 bg-white/10 backdrop-blur-sm color-white/40 border border-white/10"
               onMouseEnter={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.75)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.4)')}
