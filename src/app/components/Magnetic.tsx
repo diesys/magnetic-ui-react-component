@@ -292,9 +292,9 @@ export function Magnetic({
   // Keep a ref to the latest props so the rAF loop always reads fresh values
   // without needing to re-subscribe useEffect every time a prop changes
   const propsRef = useRef<MagneticProps>({
-    disabled, perspective, spring, springStiffness, springDamping, ...rest,
+    disabled, perspective, spring, springStiffness, springDamping, children, ...rest,
   });
-  propsRef.current = { disabled, perspective, spring, springStiffness, springDamping, ...rest };
+  propsRef.current = { disabled, perspective, spring, springStiffness, springDamping, children, ...rest };
 
   useEffect(() => {
     // Track mouse globally — this allows the effect to work even if the
