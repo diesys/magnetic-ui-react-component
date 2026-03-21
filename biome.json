@@ -1,0 +1,5 @@
+{
+	"files": {
+		"includes": ["src/**/*.{tsx, ts, json, css, html}"]
+	}
+}
