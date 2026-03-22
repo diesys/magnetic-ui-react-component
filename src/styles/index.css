@@ -1,3 +1,84 @@
-@import './fonts.css';
-@import './tailwind.css';
-@import './theme.css';
+@import "./theme.css";
+@import "./tailwind.css";
+
+
+@layer base {
+	* {
+		@apply border-border outline-mode;
+	}
+
+	body {
+		@apply bg-background text-foreground;
+	}
+
+	main {
+	  @apply flex-1 relative flex flex-col items-center justify-center gap-16 p-4;
+  	background:
+  	  radial-gradient(circle, transparent 0%, color-mix(in oklch, var(--background), transparent 10%) 90%),
+  		repeating-linear-gradient(0deg, color-mix(in oklch, var(--foreground), transparent 80%) 9px, transparent 10px, transparent 100px),
+      repeating-linear-gradient(90deg, color-mix(in oklch, var(--foreground), transparent 80%) 9px, transparent 10px, transparent 100px),
+  		radial-gradient(circle, color-mix(in oklch, var(--mode), transparent 80%) 0%, transparent 70%);
+	}
+}
+
+
+@layer components {
+  select {
+    @apply cursor-pointer text-foreground text-xs bg-foreground/5 border border-foreground/10 rounded-lg px-2 py-1.5 focus:outline-none focus:border-mode brightness-100 hover:brightness-150;
+  }
+
+  button[type="button"] {
+    @apply cursor-pointer flex py-1.5 px-1 flex-1 text-center items-center justify-center grow shrink-0 transition-all rounded-lg text-xs border border-foreground/20 backdrop-blur-lg text-foreground brightness-80 hover:brightness-150;
+    background: color-mix(in oklch, var(--surface), transparent 90%);
+
+    &.active {
+			filter: brightness(1.5);
+			background: color-mix(in oklch, currentColor, transparent 80%);
+			border: 1px solid color-mix(in oklch, currentColor, transparent 20%);
+    }
+
+    &[data-role-select] {
+      @apply justify-between text-[10px] px-2 pr-3 pb-2 mt-1 uppercase tracking-widest font-semibold border-transparent border-t-foreground/10 rounded-none hover:text-foreground/80 hover:filter-none;
+      width: calc(100% + 4px * 4);
+      margin-inline: -8px;
+    }
+
+    &[data-mode-toggle].active {
+      color: var(--mode);
+    }
+
+    &[data-type="switch"] {
+      @apply cursor-pointer relative w-9 max-w-9 h-5 rounded-full p-0 hover:brightness-90;
+
+      input[type="checkbox"] {
+        @apply cursor-pointer appearance-none absolute top-px left-px w-4 h-4 rounded-full bg-foreground/90 shadow transition-transform border border-background/10 border-t-0 duration-200;
+      }
+    }
+  }
+}
+
+@layer utils {
+  /* Magnetic */
+  .magnetic-mode-attract {
+    --mode: var(--magnetic-mode-attract);
+    --magnetic-mode: var(--magnetic-mode-attract);
+  }
+  .magnetic-mode-disabled {
+    --mode: var(--magnetic-mode-disabled);
+    --magnetic-mode: var(--magnetic-mode-disabled);
+  }
+  .magnetic-mode-repel {
+    --mode: var(--magnetic-mode-repel);
+    --magnetic-mode: var(--magnetic-mode-repel);
+  }
+
+  /* Luminance */
+  .luminance-mode-enabled {
+    --mode: var(--luminance-mode-enabled);
+    --luminance-mode: var(--luminance-mode-enabled);
+  }
+  .luminance-mode-disabled {
+    --mode: var(--luminance-mode-disabled);
+    --luminance-mode: var(--luminance-mode-disabled);
+  }
+}
