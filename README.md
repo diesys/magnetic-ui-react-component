@@ -1,6 +1,12 @@
 # Magnetic UI React Component
 
-Physics-inspired mouse interaction component for React
+Physics-inspired mouse interaction component for React.
+
+**[Live preview](https://diesys.github.io/magnetic-ui-react-component/)**
+
+| Attract                               | Repel                             |
+| ------------------------------------- | --------------------------------- |
+| ![Attract](docs/showcase-attract.png) | ![Repel](docs/showcase-repel.png) |
 
 ## Running the code
 
