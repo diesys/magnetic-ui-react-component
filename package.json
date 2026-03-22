@@ -2,7 +2,7 @@
 	"name": "magnetic-ui-react-component",
 	"homepage": "https://diesys.github.io/magnetic-ui-react-component",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.3.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
@@ -10,17 +10,14 @@
 		"preview": "vite preview",
 		"check": "biome check .",
 		"format": "biome format --write .",
-		"lint": "biome lint .",
-		"predeploy": "vite build",
-		"deploy": "gh-pages -d dist"
+		"lint": "biome lint ."
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^2.4.6",
 		"@tailwindcss/vite": "^4.2.1",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",
 		"@vitejs/plugin-react": "^5.1.4",
-		"@biomejs/biome": "^2.4.6",
-		"gh-pages": "^6.3.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0",
 		"tailwindcss": "^4.2.1",
